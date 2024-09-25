@@ -5,7 +5,7 @@ const wss = new WebSocketServer({ port: 8080 });
 
 wss.on('connection', function connection(ws) {
   ws.on('message', function message(rawData) {
-    const data = (JSON.parse(rawData.toString()))
+    const data = JSON.parse(rawData.toString())
     console.log(data);
     
     const dt = {
@@ -17,12 +17,10 @@ wss.on('connection', function connection(ws) {
     const request = axios.post('http://localhost:11434/api/generate', dt)  
       .then((response) => {
           console.log(response)
-          ws.send(response.data.response) 
+          const jsonData = JSON.stringify({ answer: response.data.response, session: [] })
+          ws.send(jsonData) 
       });
-});
-
-ws.send('open')   
- 
+  });
 });
 
 
