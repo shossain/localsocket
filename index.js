@@ -7,10 +7,11 @@ wss.on('connection', function connection(ws) {
   ws.on('message', function message(rawData) {
     const data = JSON.parse(rawData.toString())
     console.log(data);
-    
+    const question = data.prompt.substring('ipb:'.length).trim()
+
     const dt = {
       model: "tinyllama",
-      prompt:  data.prompt,
+      prompt:  question,
       stream: false
     };
     
