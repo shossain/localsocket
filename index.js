@@ -4,12 +4,13 @@ import axios from "axios"
 const wss = new WebSocketServer({ port: 8080 });
 
 wss.on('connection', function connection(ws) {
-  ws.on('message', function message(data) {
-    console.log('received: %s', data);
-  
+  ws.on('message', function message(rawData) {
+    const data = (JSON.parse(rawData.toString()))
+    console.log(data);
+    
     const dt = {
       model: "tinyllama",
-      prompt:  data.toString(),
+      prompt:  data.prompt,
       stream: false
     };
     
